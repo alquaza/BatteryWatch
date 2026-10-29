@@ -1,6 +1,6 @@
 # BatteryWatch
 
-Built by Alex and Claude so you can see the battery lives of wireless devices. It consists of a Rainmeter plugin and two desktop skins.
+Built by Alex (and Claude) so you can see the battery lives of wireless devices. It consists of a Rainmeter plugin and two desktop skins.
 
 It works for SPECIFICALLY the Logitech PRO X SUPERLIGHT and the HyperX Cloud III S Wireless (in dongle mode). It could be adapted for use with other devices but I'm not concerned about implementing them because I just made this for myself. It is also only tested working on Windows 10.
 
@@ -99,12 +99,13 @@ Colours are `R,G,B,Alpha` (0–255). After editing, click **Refresh all** in Man
 - **Hide Rainmeter's tray icon:** in Manage, go to the **Settings** tab and untick **Show notification area icon**. Afterwards, you can open Manage by running Rainmeter again from the Start menu.
 - **Moving or editing a skin:** the skins are click-through and can't be dragged. Change them from Manage, or edit the `.ini` files.
 
-## Behaviour
+## Behaviour and notes
 
 - Each device is read on a background thread, once per `PollSeconds`, shared by both skins. Rainmeter itself never waits on USB.
 - If a device stops answering, the last known value stays on screen. That happens when the mouse is asleep or the headset is switched off. A low warning therefore stays up until a new reading says the battery is above the threshold.
 - `--` means no reading has been taken yet since Rainmeter started.
 - The original SUPERLIGHT reports battery as a voltage, which is converted to a percentage. It can wander by a few percent so don't rely on exact displayed percentages too much.
+- For the HyperX Cloud III S, the battery button (on the headset itself) only reports battery to the nearest 10 (I guess so they don't have to record as many voicelines) so keep that in mind if it differs from the displayed number
 
 ## Updating the plugin
 
