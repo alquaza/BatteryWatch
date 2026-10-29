@@ -1,6 +1,6 @@
 # BatteryWatch
 
-A Rainmeter plugin and two desktop skins so you can see battery lives of wireless devices.
+Built by Alex and Claude so you can see the battery lives of wireless devices. It consists of a Rainmeter plugin and two desktop skins.
 
 It works for SPECIFICALLY the Logitech PRO X SUPERLIGHT and the HyperX Cloud III S Wireless (in dongle mode). It could be adapted for use with other devices but I'm not concerned about implementing them because I just made this for myself. It is also only tested working on Windows 10.
 
