@@ -4,8 +4,7 @@ A Rainmeter plugin and two desktop skins so you can see battery lives of wireles
 
 It works for SPECIFICALLY the Logitech PRO X SUPERLIGHT and the HyperX Cloud III S Wireless (in dongle mode). It could be adapted for use with other devices but I'm not concerned about implementing them because I just made this for myself. It is also only tested working on Windows 10.
 
-
-- **Corner skin:** small "Mouse 64%  Headset 82%" text in the top-right of the desktop.
+- **Corner skin:** small "Mouse 64% Headset 82%" text in the top-right of the desktop.
 - **Warning skin:** a large "Charge Mouse!" message in the centre of the desktop. It is invisible until a device is at or below a set threshold.
 
 Both skins sit on the desktop layer, behind every window, and ignore clicks. The plugin talks to the USB dongles directly. You don't need G HUB or NGENUITY, but leaving them installed doesn't cause issues.

@@ -22,8 +22,11 @@ CornerGap=24
 ; Centre warning
 WarningTitleSize=40
 WarningTitleColor=255,50,50,255
+<<<<<<< HEAD
 WarningDetailSize=16
 WarningDetailColor=255,255,255,210
+=======
+>>>>>>> e938217 (Removed battery shown in warning)
 ShadowColor=0,0,0,160
 
 ; --- Warning wording ----------------------------------------------------
