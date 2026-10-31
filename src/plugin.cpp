@@ -13,11 +13,11 @@
 //
 // Device reads happen on one background thread per device type, shared by every
 // measure (and skin) that uses it, so Rainmeter itself never waits on USB. A
-// failed read clears the current value, so unavailable devices show "--" and
-// do not trigger a low-battery warning.
+// failed read keeps the last value for five minutes; after that it shows "--".
 #include "hid_win.hpp"
 
 #include <atomic>
+#include <chrono>
 #include <condition_variable>
 #include <cstdio>
 #include <cwchar>
@@ -27,6 +27,8 @@
 #define PLUGIN_EXPORT extern "C" __declspec(dllexport)
 
 namespace {
+
+constexpr auto kFailedReadGracePeriod = std::chrono::minutes(5);
 
 // Rainmeter API, resolved at runtime so no import library is needed to build.
 using RmReadStringFn = LPCWSTR(__stdcall*)(void*, LPCWSTR, LPCWSTR, BOOL);
@@ -72,14 +74,29 @@ public:
         if (headsetPid) headsetPid_ = headsetPid;
     }
 
-    int last() const { return last_; }
+    int last() const {
+        std::lock_guard<std::mutex> g(stateMutex_);
+        if (last_ < 0) return -1;
+        if (failedAt_ != std::chrono::steady_clock::time_point{} &&
+            std::chrono::steady_clock::now() - failedAt_ >= kFailedReadGracePeriod)
+            return -1;
+        return last_;
+    }
 
 private:
     void run() {
         for (;;) {
             const int v = kind_ == Kind::Mouse ? bw::readMouseBattery()
                                                : bw::readHeadsetBattery(headsetPid_);
-            last_ = v;
+            {
+                std::lock_guard<std::mutex> g(stateMutex_);
+                if (v >= 0) {
+                    last_ = v;
+                    failedAt_ = {};
+                } else if (last_ >= 0 && failedAt_ == std::chrono::steady_clock::time_point{}) {
+                    failedAt_ = std::chrono::steady_clock::now();
+                }
+            }
             std::unique_lock<std::mutex> lk(waitMutex_);
             if (wake_.wait_for(lk, std::chrono::seconds(interval_.load()), [this] { return stop_; }))
                 return;
@@ -93,9 +110,11 @@ private:
     std::mutex waitMutex_;
     std::condition_variable wake_;
     bool stop_ = false;
+    mutable std::mutex stateMutex_;
+    int last_ = -1;
+    std::chrono::steady_clock::time_point failedAt_{};
     std::atomic<int> interval_{60};
     std::atomic<uint16_t> headsetPid_{bw::kCloud3SPid};
-    std::atomic<int> last_{-1};
 };
 
 Poller& poller(Kind k) {
