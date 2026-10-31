@@ -8,13 +8,13 @@
 //   PollSeconds=60          ; optional, minimum 10
 //   HeadsetPID=0x06BE       ; optional, only for Device=Headset
 //
-// Number value: battery percent, or -1 if never read yet.
+// Number value: battery percent, or -1 if there is no current reading.
 // String value: "64%" or "--".
 //
 // Device reads happen on one background thread per device type, shared by every
-// measure (and skin) that uses it, so Rainmeter itself never waits on USB. If a
-// device stops answering (mouse asleep, headset off) the last known value is
-// kept, so a low warning stays up until a new reading says otherwise.
+// measure (and skin) that uses it, so Rainmeter itself never waits on USB. A
+// failed read clears the current value, so unavailable devices show "--" and
+// do not trigger a low-battery warning.
 #include "hid_win.hpp"
 
 #include <atomic>
@@ -79,7 +79,7 @@ private:
         for (;;) {
             const int v = kind_ == Kind::Mouse ? bw::readMouseBattery()
                                                : bw::readHeadsetBattery(headsetPid_);
-            if (v >= 0) last_ = v;
+            last_ = v;
             std::unique_lock<std::mutex> lk(waitMutex_);
             if (wake_.wait_for(lk, std::chrono::seconds(interval_.load()), [this] { return stop_; }))
                 return;

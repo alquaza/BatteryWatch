@@ -102,10 +102,9 @@ Colours are `R,G,B,Alpha` (0–255). After editing, click **Refresh all** in Man
 ## Behaviour and notes
 
 - Each device is read on a background thread, once per `PollSeconds`, shared by both skins. Rainmeter itself never waits on USB.
-- If a device stops answering, the last known value stays on screen. That happens when the mouse is asleep or the headset is switched off. A low warning therefore stays up until a new reading says the battery is above the threshold.
-- `--` means no reading has been taken yet since Rainmeter started.
+- If a device has not been detected, is disconnected, or stops answering, its reading displays `--` and it does not trigger a low-battery warning. This includes when the device is asleep (which can happen with the mouse).
 - The original SUPERLIGHT reports battery as a voltage, which is converted to a percentage. It can wander by a few percent so don't rely on exact displayed percentages too much.
-- For the HyperX Cloud III S, the battery button (on the headset itself) only reports battery to the nearest 10 (I guess so they don't have to record as many voicelines) so keep that in mind if it differs from the displayed number
+- For the HyperX Cloud III S, the battery button (on the headset itself) only reports battery to the nearest 10 (I guess so they don't have to record as many voicelines) so keep that in mind if it differs from the displayed number.
 
 ## Updating the plugin
 
