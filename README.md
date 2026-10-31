@@ -85,8 +85,8 @@ The corner text should appear within a few seconds.
 
 Edit `Settings.inc`:
 
-- MouseThreshold and HeadsetThreshold: The middle warning will appear at or below this percent (default is 20%)
-- PollSeconds: How often the device batteries are polled (default is 300 = 5 min, minimum 10)
+- MouseThreshold and HeadsetThreshold: The middle warning will appear at or below this percent
+- PollSeconds: How often the device batteries are polled (minimum 10)
 - CornerFontSize, CornerColor, CornerGap: Change the look and position of the text in the corner
 - WarningTitleSize, WarningTitleColor: Change the look of the warning in the center
 - MouseTitle, HeadsetTitle, BothTitle: Change the wording of the warning messages

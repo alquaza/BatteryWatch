@@ -9,7 +9,7 @@ MouseThreshold=20
 HeadsetThreshold=20
 
 ; How often to ask the devices for their battery level, in seconds (minimum 10).
-PollSeconds=300
+PollSeconds=60
 
 ; --- Look ---------------------------------------------------------------
 FontFace=Segoe UI
